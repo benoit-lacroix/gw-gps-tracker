@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mails>
+    <mail>
+        <code>START_TRACKING</code>
+        <subject>[GATEWAY] Start tracking: {{device}}</subject>
+        <body>
+            <![CDATA[
+                <!DOCTYPE html>
+                <html lang="fr-FR" class="no-js has-zcm  set-theme--dark dark-bg dark-header">
+                <head>
+                    <title>Start tracking: {{device}}</title>
+                    <style>
+                    body {
+                    font-family: Calibri Light, Helvetica, Arial, sans-serif;
+                    font-size: 11pt;
+                    }
+                    </style>
+                </head>
+
+                <body>
+                    <p>Hello,</p>
+                    <p>Start tracking:</p>
+                    <ul>
+                        <li>Device: <code>{{device}}</code></li>
+                        <li>Position: <code>{{latitude}}</code>:<code>{{longitude}}</code></li>
+                    </ul>
+                    <p>
+                        Map link:
+                        <a href="https://www.google.fr/maps/place/{{latitude}},{{longitude}}">
+                            https://www.google.fr/maps/place/{{latitude}},{{longitude}}
+                        </a>
+                    </p>
+                    <p>Regards</p>
+                    <p>
+                        <b>RadixHomeWork</b> | Gateway<br/>
+                        <a href="mailto:radixhomework@outlook.com">radixhomework@outlook.com</a><br/>
+                        <a href="https://github.com/radixhomework/gateway">https://github.com/radixhomework/gateway</a>
+                    </p>
+                </body>
+                </html>
+            ]]>
+        </body>
+    </mail>
+</mails>

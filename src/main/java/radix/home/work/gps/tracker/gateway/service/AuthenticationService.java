@@ -15,7 +15,7 @@ public class AuthenticationService {
 
     private final ApiKeyRepository apiKeyRepository;
 
-    @Value("${admin.api-key}")
+    @Value("${admin.api-key:null}")
     private String adminApiKey;
 
     /**
@@ -27,7 +27,7 @@ public class AuthenticationService {
      * @return {@code true} if the comb api-key/path is valid, {@code false} otherwise.
      */
     public boolean checkApiKey(String key, String path, LocalDate refDate) {
-        if (key.equals(adminApiKey)) {
+        if (!adminApiKey.equals("null") && key.equals(adminApiKey)) {
             log.info("Admin api-key checked successfully");
             return true;
         }

@@ -1,0 +1,53 @@
+spring:
+  data:
+    influxdb:
+      # InfluxDB URL
+      url:
+      # Token to connect to the InfluxDB instance
+      token:
+      # Organization on the InfluxDB instance
+      org:
+      # Bucket where to save data
+      bucket:
+  datasource:
+    hikari:
+      maximum-pool-size:
+    url:
+    username:
+    password:
+  mail:
+    host:
+    port:
+    protocol: smtp
+    username:
+    password:
+    from:
+    to:
+    # Required properties to make the mail sending working with Office365 server
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          port: 587
+          ssl:
+            trust: smtp.office365.com
+  jpa:
+    hibernate:
+      ddl-auto: none
+  main:
+    banner-mode: log
+server:
+  servlet:
+    # Main application context (with leading slash)
+    context-path: /
+    # Subcontext for secured endpoints (without slash)
+    secure-context: secured
+    # Subcontext for unsecured endpoints (without slash)
+    unsecure-context: unsecured
+admin:
+  # Initial administrator api-key (allow access to all endpoints)
+  # Remove (or comment) this key to disable admin api-key authentication
+  api-key:

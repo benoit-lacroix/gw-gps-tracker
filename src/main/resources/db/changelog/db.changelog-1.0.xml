@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="changelog-api-1.0" author="RadixHomeWork">
+        <comment>
+            Creating tables :
+            - aes_key : AES keys table
+            - api_key : API keys table
+            - route : Routes that can be secured with api-key
+            - api_key_route : Join table for associating api-key with routes
+        </comment>
+
+        <createSequence sequenceName="aes_key_id_seq" incrementBy="1" startValue="1"/>
+
+        <createTable tableName="aes_key">
+            <column name="id" type="integer">
+                <constraints primaryKey="true"
+                             primaryKeyName="pk_aes_key"/>
+            </column>
+            <column name="length" type="integer">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_aes_key_length"/>
+            </column>
+            <column name="key" type="binary">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_key"/>
+            </column>
+            <column name="iv" type="binary">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_key"/>
+            </column>
+            <column name="cipher" type="char(200)">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_cipher"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="api_key_id_seq" incrementBy="1" startValue="1"/>
+
+        <createTable tableName="api_key">
+            <column name="id" type="integer">
+                <constraints primaryKey="true"
+                             primaryKeyName="pk_api_key"/>
+            </column>
+            <column name="key" type="char(36)">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_key"/>
+            </column>
+            <column name="aes_key_id" type="integer">
+                <constraints foreignKeyName="fk_api_key_aes_key"
+                             referencedTableName="aes_key"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="from_date" type="date"/>
+            <column name="until_date" type="date"/>
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_timestamp"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="route_id_seq" incrementBy="1" startValue="1"/>
+
+        <createTable tableName="route">
+            <column name="id" type="integer">
+                <constraints primaryKey="true"
+                             primaryKeyName="pk_route"/>
+            </column>
+            <column name="path" type="varchar2(256)">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_route_path"
+                             unique="true"
+                             uniqueConstraintName="uq_route_path"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="api_key_route">
+            <column name="api_key_id" type="integer">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_route_api_key_id"
+                             foreignKeyName="fk_api_key_route_api_key"
+                             referencedTableName="api_key"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="route_id" type="integer">
+                <constraints nullable="false"
+                             notNullConstraintName="nn_api_key_route_route_id"
+                             foreignKeyName="fk_api_key_route_route"
+                             referencedTableName="route"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="api_key_route" columnNames="api_key_id,route_id"
+                       constraintName="pk_api_key_route"/>
+    </changeSet>
+</databaseChangeLog>

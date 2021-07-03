@@ -1,8 +1,8 @@
-name: Docker Image Build
+name: Maven compilation and Docker image build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, docker-test ]
   pull_request:
     branches: [ main ]
 
@@ -18,5 +18,8 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag gateway:$(date +%s)
+      - name: Build and Push Docker Image
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PWD }}
+          docker build . --file Dockerfile --tag radixhomework/gateway:latest
+          docker push radixhomework/gateway:latest

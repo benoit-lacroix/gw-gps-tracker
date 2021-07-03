@@ -1,8 +1,8 @@
-name: Docker Image Build
+name: Maven compilation and Docker image build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, docker-test ]
   pull_request:
     branches: [ main ]
 
@@ -20,3 +20,5 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag gateway:$(date +%s)
+      - name: Push to Dcoker Hub
+        run: docker push radixhomework/gateway:tagname

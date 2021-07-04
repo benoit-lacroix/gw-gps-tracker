@@ -1,9 +1,7 @@
-name: Maven compilation and Docker image build
+name: Gateway CI
 
 on:
   push:
-    branches: [ main, docker-test ]
-  pull_request:
     branches: [ main ]
 
 jobs:

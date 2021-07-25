@@ -23,7 +23,7 @@ public class AESUtil {
 
     private static final String ALGORITHM = "AES";
     private static final String DEFAULT_CIPHER_SUITE = "AES/CBC/PKCS5PADDING";
-    private static final int[] ALLOWED_KEY_LENGTH = {128, 192, 256};
+    private static final int[] ALLOWED_KEY_LENGTH = {16, 24, 32}; // AES-128, AES-192 and AES-256
     private static final int IV_LENGTH = 16;
 
     /**
@@ -41,7 +41,6 @@ public class AESUtil {
 
         return doXCrypt(data, Cipher.DECRYPT_MODE, key, iv, cipherSuite);
     }
-
 
     /**
      * Method for encrypting data

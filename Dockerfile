@@ -2,8 +2,8 @@ FROM openjdk:11.0.11-9-jdk-slim
 
 COPY target/gateway.jar gateway.jar
 
-RUN mkdir /config /log
-VOLUME /config /log
+RUN mkdir /config
+VOLUME /config
 
 EXPOSE 8080
 

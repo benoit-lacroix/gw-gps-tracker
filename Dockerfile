@@ -1,9 +1,10 @@
 FROM openjdk:11.0.11-9-jdk-slim
 
-COPY target/gateway.jar gateway.jar
-
-RUN mkdir /config
+RUN mkdir /config /templates
 VOLUME /config
+
+COPY target/gateway.jar gateway.jar
+COPY target/templates/* /templates/
 
 EXPOSE 8080
 

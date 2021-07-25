@@ -41,8 +41,7 @@ public class MailTemplatesService {
     public XmlMailTemplate loadXmlTemplate(EnumMailTemplate mailTemplate) {
         if (xmlMailTemplates == null || xmlMailTemplates.getMailTemplates() == null) {
             try {
-                var classLoader = MailTemplatesService.class.getClassLoader();
-                var file = new File(classLoader.getResource("templates/mail-templates.xml").getFile());
+                var file = new File("/templates/mail-templates.xml");
                 var context = JAXBContext.newInstance(XmlMailTemplates.class);
                 var unmarshaller = context.createUnmarshaller();
                 xmlMailTemplates = (XmlMailTemplates) unmarshaller.unmarshal(file);

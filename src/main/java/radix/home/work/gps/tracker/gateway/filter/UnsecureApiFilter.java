@@ -11,6 +11,7 @@ import radix.home.work.gps.tracker.gateway.service.HttpRequestService;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Base64;
 
 @Slf4j
 @Order(2)
@@ -37,7 +38,11 @@ public class UnsecureApiFilter implements Filter {
             if (requestWrapper.getRequestURI().startsWith(baseContext + "/" + unsecureContext)) {
                 log.debug("Body to be decrypted before being processed");
                 String apiKey = httpRequestService.getApiKey(requestWrapper);
-                requestWrapper.setBody(httpRequestService.decryptBody(requestWrapper.getBody(), apiKey));
+                // Received body is base64 encoded, AES encrypted, base64 encoded content...
+                byte[] decodedBody = Base64.getDecoder().decode(requestWrapper.getBody());
+                byte[] decryptedBody = Base64.getMimeDecoder().decode(httpRequestService.decryptBody(decodedBody, apiKey));
+                log.info("Decrypted body: {}", new String(decryptedBody));
+                requestWrapper.setBody(decryptedBody);
                 chain.doFilter(requestWrapper, response);
             } else {
                 log.debug("No decryption do be done");

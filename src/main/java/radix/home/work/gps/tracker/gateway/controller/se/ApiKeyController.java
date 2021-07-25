@@ -3,10 +3,13 @@ package radix.home.work.gps.tracker.gateway.controller.se;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import radix.home.work.gps.tracker.gateway.dto.ApiKeyDto;
 import radix.home.work.gps.tracker.gateway.dto.RouteDto;
+import radix.home.work.gps.tracker.gateway.exception.CustomException;
 import radix.home.work.gps.tracker.gateway.service.ApiKeyService;
+import radix.home.work.gps.tracker.gateway.utils.AESUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -50,12 +53,20 @@ public class ApiKeyController {
     }
 
     @PostMapping(path = "/generate-key")
-    public void generateKey(@NotNull @Param("path") String path) {
+    public void generateKey(@NotNull @RequestParam("path") String path, @RequestParam("aes-key") Boolean aesKey,
+                            @RequestParam("aes-key-length") Integer aesKeyLength) {
+        log.info("Generating new api-key (params: {}, {}, {})", path, aesKey, aesKeyLength);
         var apiKeyDto = new ApiKeyDto();
         apiKeyDto.setKey(UUID.randomUUID().toString());
         apiKeyDto.setFromDate(LocalDate.now());
         var route = new RouteDto();
         route.setPath(path);
+        if (aesKey != null && aesKey && aesKeyLength != null) {
+            log.info("Generating new aes-key");
+            apiKeyDto.setAesKey(AESUtil.generateKey(aesKeyLength));
+        } else if (aesKey != null && aesKey) {
+            throw new CustomException(HttpStatus.BAD_REQUEST);
+        }
         apiKeyDto.setRoutes(Collections.singletonList(route));
         apiKeyDto.setTimestamp(LocalDateTime.now());
         apiKeyService.saveApiKey(apiKeyDto);

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "api_key")
-@SequenceGenerator(name = "api_key_seq", sequenceName = "api_key_id_seq", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "api_key_seq", sequenceName = "api_key_id_seq", allocationSize = 1)
 public class ApiKeyEntity {
 
     @Id

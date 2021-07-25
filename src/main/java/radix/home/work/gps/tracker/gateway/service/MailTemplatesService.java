@@ -18,6 +18,13 @@ public class MailTemplatesService {
 
     private XmlMailTemplates xmlMailTemplates;
 
+    /**
+     * Method for loading and filling a mail template
+     *
+     * @param template {@link EnumMailTemplate} corresponding to the template to load and fill
+     * @param elements {@link Map} of the placeholders to replace in the template
+     * @return The template loaded and filled
+     */
     public XmlMailTemplate loadAndFillXmlTemplate(EnumMailTemplate template, Map<String, String> elements) {
         XmlMailTemplate out = loadXmlTemplate(template);
         out.addElements(elements);
@@ -25,6 +32,12 @@ public class MailTemplatesService {
         return out;
     }
 
+    /**
+     * Method for loading a single mail template
+     *
+     * @param mailTemplate {@link EnumMailTemplate} corresponding to the template to load
+     * @return The template loaded
+     */
     public XmlMailTemplate loadXmlTemplate(EnumMailTemplate mailTemplate) {
         if (xmlMailTemplates == null || xmlMailTemplates.getMailTemplates() == null) {
             try {
@@ -40,7 +53,11 @@ public class MailTemplatesService {
         }
         for (XmlMailTemplate template : xmlMailTemplates.getMailTemplates()) {
             if (mailTemplate.name().equals(template.getCode())) {
-                return template;
+                try {
+                    return template.clone();
+                } catch (CloneNotSupportedException cnse) {
+                    throw new TemplateNotFoundException("Error while cloning XmlMailTemplate {}" + mailTemplate);
+                }
             }
         }
         throw new TemplateNotFoundException("Template not found: " + mailTemplate);

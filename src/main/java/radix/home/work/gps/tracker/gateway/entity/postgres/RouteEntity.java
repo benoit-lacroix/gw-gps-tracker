@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "route")
-@SequenceGenerator(name = "route_seq", sequenceName = "route_id_seq", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "route_seq", sequenceName = "route_id_seq", allocationSize = 1)
 public class RouteEntity {
 
     @Id

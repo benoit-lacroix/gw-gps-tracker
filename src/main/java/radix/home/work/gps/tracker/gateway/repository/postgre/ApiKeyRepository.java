@@ -26,6 +26,9 @@ public interface ApiKeyRepository extends CrudRepository<ApiKeyEntity, Integer> 
             "    and :path like r.path", nativeQuery = true)
     boolean checkApiKey(String key, String path, LocalDate refDate);
 
-    @Query("from ApiKeyEntity ak where ak.key = :key and :refDate between ak.fromDate and ak.untilDate")
+    @Query("select ak from ApiKeyEntity ak " +
+            "where ak.key = :key " +
+            "    and (:refDate >= ak.fromDate or ak.fromDate is null) " +
+            "    and (:refDate <= ak.untilDate or ak.untilDate is null)")
     ApiKeyEntity findActiveByKey(String key, LocalDate refDate);
 }

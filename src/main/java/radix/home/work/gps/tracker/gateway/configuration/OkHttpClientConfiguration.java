@@ -22,13 +22,13 @@ public class OkHttpClientConfiguration {
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(java.security.cert.X509Certificate[] chain,
-                                                       String authType) throws CertificateException {
+                                                       String authType) {
                             // No verification done here
                         }
 
                         @Override
                         public void checkServerTrusted(java.security.cert.X509Certificate[] chain,
-                                                       String authType) throws CertificateException {
+                                                       String authType) {
                             // No verification done here
                         }
 

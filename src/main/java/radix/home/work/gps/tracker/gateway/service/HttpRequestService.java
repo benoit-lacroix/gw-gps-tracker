@@ -66,7 +66,6 @@ public class HttpRequestService {
                 return AESUtil.decrypt(body, key.getAesKey().getKey(),
                         key.getAesKey().getIv(),
                         key.getAesKey().getCipher());
-
             } else {
                 log.warn("No aes-key found for api-key {}", apiKey);
                 return body;

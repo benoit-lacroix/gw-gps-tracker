@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "aes_key")
-@SequenceGenerator(name = "aes_key_seq", sequenceName = "aes_key_id_seq", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "aes_key_seq", sequenceName = "aes_key_id_seq", allocationSize = 1)
 public class AesKeyEntity {
 
     @Id

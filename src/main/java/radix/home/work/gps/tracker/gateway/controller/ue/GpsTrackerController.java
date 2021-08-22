@@ -18,15 +18,12 @@ public class GpsTrackerController extends AbstractController {
 
     private final GpsTrackerService trackerService;
 
-    @PostMapping("/start-tracking")
-    public void startTracking(@RequestBody GpsPositionDto position) {
-        log.debug("Starting tracking: {}", position);
-        trackerService.notifyStartTracking(position);
-    }
-
     @PostMapping("/position")
     public void receivePosition(@RequestBody GpsPositionDto position) {
         log.debug("Received position: {}", position);
+        if (position.isNotify()) {
+            trackerService.notifyStartTracking(position);
+        }
         trackerService.savePosition(position);
     }
 }

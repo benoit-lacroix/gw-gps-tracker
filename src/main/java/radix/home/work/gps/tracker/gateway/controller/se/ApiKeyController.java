@@ -2,7 +2,6 @@ package radix.home.work.gps.tracker.gateway.controller.se;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import radix.home.work.gps.tracker.gateway.dto.ApiKeyDto;
@@ -43,7 +42,7 @@ public class ApiKeyController {
     }
 
     @PutMapping(path = "/{id}")
-    public ApiKeyDto updateApiKey(@NotNull @PathVariable int id, @Valid @RequestBody ApiKeyDto dto) {
+    public ApiKeyDto updateApiKey(@Valid @RequestBody ApiKeyDto dto) {
         return apiKeyService.saveApiKey(dto);
     }
 
